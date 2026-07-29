@@ -1,5 +1,5 @@
 const bibliotecaService = require("../services/bibliotecaService")
-const bibliotecaRouter 
+
 function cadastrarLivro(req, res){
     try {
         const livro = bibliotecaService.cadastrarLivro(req.body);
@@ -15,6 +15,22 @@ function cadastrarLivro(req, res){
 }
 
 
+function cadastrarEmprestimo(req, res){
+    try {
+        const emprestimo = bibliotecaService.cadastrarEmprestimo(req.body);
+        return res.status(201).json({
+            message : "Emrestimo cadastrado com sucesso.",
+            emprestimo
+        })
+    } catch (error) {
+        return res.status(400).json({
+            erro :  error.message
+        })
+        
+    }
+}
+
 module.exports = {
-    cadastrarLivro
+    cadastrarLivro,
+    cadastrarEmprestimo
 }
