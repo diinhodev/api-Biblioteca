@@ -61,9 +61,24 @@ function listarEmprestimos(req, res){
     }
 }
 
+function excluirLivro(req, res){
+    try {
+        const livro = bibliotecaService.excluirLivro({idLivro : req.params.id})
+        return res.status(200).json({
+            message : "Livro excluido com sucesso.",
+            livro
+        })
+    } catch (error) {
+        return res.status(400).json({
+            erro : error.message
+        })
+    }
+}
+
 module.exports = {
     cadastrarLivro,
     cadastrarEmprestimo,
     devolverEmprestimo,
-    listarEmprestimos
+    listarEmprestimos, 
+    excluirLivro
 }

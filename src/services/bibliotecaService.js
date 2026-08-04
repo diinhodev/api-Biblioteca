@@ -87,7 +87,7 @@ function devolverEmprestimo({idEmprestimo}){
 }
 
 function listarEmprestimos({nome, devolvido, data, ordenar, ordem, pagina, limit}){
-    const emprestimos = emprestimoDatabases;
+    let emprestimos = emprestimoDatabases;
 
     if(nome){
         emprestimos = emprestimos.filter(n => n.nomePessoa === nome)
@@ -146,11 +146,29 @@ function listarEmprestimos({nome, devolvido, data, ordenar, ordem, pagina, limit
     return emprestimos
 }
 
+function excluirLivro({idLivro}){
+    const livroEmprestimo = emprestimoDatabases.find(l=> l.livroId === idLivro);
+
+    if(livroEmprestimo && !livroEmprestimo.devolvido){
+        throw new Error("Livro encontra-se emprestado.")
+    }
+
+    const livro = buscarLivro(idLivro)
+
+    const indice = livroDatabases.indexOf(livro)
+
+    livroDatabases.splice(indice, 1)
+
+    return livro
+
+}
+
 module.exports = {
     cadastrarLivro,
     cadastrarEmprestimo,
     devolverEmprestimo,
-    listarEmprestimos
+    listarEmprestimos,
+    excluirLivro
    
 }
 
